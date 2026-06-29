@@ -24,7 +24,7 @@ export default function PhotographerHomePage() {
         style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%)' }}
       >
         <div className="flex items-center justify-between">
-          <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" />
+          <Link href="/"><Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} /></Link>
           <div className="flex items-center gap-2">
             <div
               className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"

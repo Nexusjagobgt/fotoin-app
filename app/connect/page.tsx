@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BottomNav from '@/components/BottomNav';
@@ -23,24 +22,14 @@ export default function ConnectPage() {
     <div className="flex h-svh flex-col bg-gray-50">
       {/* Top bar */}
       <div className="relative flex items-center border-b border-gray-100 bg-white px-4 py-3">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => router.back()}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M19 12H5M12 19l-7-7 7-7" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <Image
-            src="/images/FOTOIN LOGO.png"
-            alt="FOTOIN"
-            width={100}
-            height={32}
-            priority
-            className="object-contain"
-          />
-        </div>
+        <button
+          onClick={() => router.back()}
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <span className="text-base font-bold text-gray-900">FOTOIN Connect</span>
         </div>

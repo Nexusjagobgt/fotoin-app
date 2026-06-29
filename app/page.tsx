@@ -66,6 +66,7 @@ export default function SplashPage() {
               height={55}
               priority
               className="object-contain"
+              style={{ filter: 'brightness(0) invert(1)' }}
             />
             <div
               className="accent mt-4 h-[3px] rounded-full bg-green-400"
@@ -83,7 +84,7 @@ export default function SplashPage() {
 
           {/* CTA */}
           <button
-            onClick={() => router.push('/role')}
+            onClick={() => router.push('/login')}
             className="fu3 mt-12 w-full rounded-2xl py-4 text-base font-semibold text-white transition-transform active:scale-95"
             style={{
               background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',

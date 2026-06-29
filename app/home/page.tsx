@@ -14,7 +14,7 @@ export default function HomePage() {
     <div className="flex h-svh flex-col bg-gray-50">
       {/* Top bar */}
       <div className="flex items-center justify-between border-b border-gray-100 bg-white px-4 py-3">
-        <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" />
+        <Link href="/"><Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" /></Link>
         <div className="flex items-center gap-2">
           <div className="relative flex h-[34px] w-[34px] items-center justify-center rounded-full bg-gray-100">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">

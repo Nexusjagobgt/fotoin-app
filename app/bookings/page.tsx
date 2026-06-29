@@ -90,8 +90,9 @@ export default function BookingsPage() {
           if (activeTab === 'Upcoming') return b.tab === 'upcoming';
           if (activeTab === 'Selesai') return b.tab === 'selesai';
           return b.tab === 'dibatalkan';
-        }).map((booking) => (
-          <div key={booking.name} className="rounded-2xl bg-white p-4 border border-gray-100">
+        }).map((booking, index) => (
+          <div key={booking.name} className="rounded-2xl bg-white p-4 border border-gray-100"
+            style={{ animation: 'fade-in-up 0.4s ease both', animationDelay: `${index * 0.1}s` }}>
             {/* Top */}
             <div className="flex items-start gap-3 mb-3">
               <div className="h-11 w-11 flex-shrink-0 rounded-full" style={{ backgroundImage: `url(${booking.avatar})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
@@ -117,20 +118,20 @@ export default function BookingsPage() {
             {/* Actions */}
             {booking.showReview ? (
               <div className="flex flex-col gap-2">
-                <Link href="/review/sari" className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-300 py-2.5 text-sm font-semibold text-amber-600 hover:bg-amber-50">
+                <Link href="/review/sari" className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-300 py-2.5 text-sm font-semibold text-amber-600 hover:bg-amber-50 active:scale-95 transition-transform">
                   <span>⭐</span> Beri Ulasan
                 </Link>
-                <Link href="/my-photos" className="flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 py-2.5 text-sm font-semibold text-violet-700 hover:bg-violet-50">
+                <Link href="/my-photos" className="flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 py-2.5 text-sm font-semibold text-violet-700 hover:bg-violet-50 active:scale-95 transition-transform">
                   <span>📁</span> Lihat Foto
                 </Link>
               </div>
             ) : (
               <div className="flex gap-2">
-                <Link href={`/messages/${booking.name.split(' ')[0].toLowerCase()}`} className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <Link href={`/messages/${booking.name.split(' ')[0].toLowerCase()}`} className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition-transform">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   Chat
                 </Link>
-                <button className="flex-1 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">Detail</button>
+                <Link href={`/booking/${booking.name.split(' ')[0].toLowerCase()}`} className="flex-1 flex items-center justify-center rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition-transform">Detail</Link>
               </div>
             )}
           </div>

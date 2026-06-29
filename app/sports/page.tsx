@@ -108,7 +108,7 @@ export default function SportsPage() {
         />
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
           <div className="mb-3 flex items-center gap-2">
-            <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={90} height={22} priority className="object-contain" />
+            <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={90} height={22} priority className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             <span className="text-sm font-bold text-amber-400">⚡ Sports</span>
           </div>
           <h1 className="mb-3 text-[20px] font-bold leading-tight text-white">

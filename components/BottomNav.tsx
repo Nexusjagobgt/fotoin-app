@@ -82,7 +82,10 @@ const clientTabs = [
 ];
 
 const photographerTabs = [
-  ...clientTabs.slice(0, 4),
+  clientTabs[0],
+  clientTabs[1],
+  { ...clientTabs[2], href: '/photographer/sports' },
+  clientTabs[3],
   {
     label: 'Profil',
     href: '/photographer/portfolio',
