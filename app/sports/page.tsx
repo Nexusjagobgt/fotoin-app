@@ -93,7 +93,7 @@ export default function SportsPage() {
   return (
     <div className="flex h-svh flex-col bg-gray-900">
       {/* Hero */}
-      <div className="relative h-52 flex-shrink-0 overflow-hidden">
+      <div className="relative h-60 flex-shrink-0 overflow-hidden">
         <div
           className="absolute inset-0"
           style={{
@@ -127,7 +127,7 @@ export default function SportsPage() {
       </div>
 
       {/* How it works */}
-      <div className="flex flex-shrink-0 justify-around bg-gray-800 px-4 py-3">
+      <div className="flex flex-shrink-0 justify-around px-4 py-5" style={{ backgroundColor: 'rgb(26,31,46)' }}>
         {[
           { icon: '🏃', text: 'Ikuti event\nolahraga' },
           { icon: '🤖', text: 'AI cocokkan\nfotomu' },
