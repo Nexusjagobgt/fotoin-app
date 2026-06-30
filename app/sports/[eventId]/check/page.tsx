@@ -1,7 +1,59 @@
 import Link from 'next/link';
 
+const eventData: Record<string, {
+  name: string;
+  date: string;
+  location: string;
+  photos: string;
+  photographers: string;
+  previewRemainder: string;
+}> = {
+  'marathon-2026': {
+    name: 'Surabaya City Marathon 2026',
+    date: '15 Maret 2026',
+    location: 'Surabaya',
+    photos: '3.847',
+    photographers: '12',
+    previewRemainder: '+3.844',
+  },
+  'cycling-2026': {
+    name: 'Gran Fondo Surabaya',
+    date: '22 Februari 2026',
+    location: 'Surabaya',
+    photos: '1.203',
+    photographers: '6',
+    previewRemainder: '+1.200',
+  },
+  'campus-fun-run': {
+    name: 'Campus Fun Run Petra',
+    date: '2 Maret 2026',
+    location: 'Surabaya',
+    photos: '934',
+    photographers: '4',
+    previewRemainder: '+931',
+  },
+  'night-run': {
+    name: 'Surabaya Night Run',
+    date: '8 Februari 2026',
+    location: 'Surabaya',
+    photos: '2.156',
+    photographers: '8',
+    previewRemainder: '+2.153',
+  },
+};
+
+const fallbackEvent = {
+  name: 'Event Olahraga',
+  date: '—',
+  location: 'Surabaya',
+  photos: '0',
+  photographers: '0',
+  previewRemainder: '+0',
+};
+
 export default async function EventCheckPage({ params }: PageProps<'/sports/[eventId]/check'>) {
   const { eventId } = await params;
+  const event = eventData[eventId] ?? fallbackEvent;
 
   return (
     <div className="flex min-h-svh flex-col bg-gray-900">
@@ -20,14 +72,14 @@ export default async function EventCheckPage({ params }: PageProps<'/sports/[eve
 
       {/* Event header */}
       <div className="relative z-10 px-4 pb-4">
-        <div className="inline-block rounded-full bg-violet-600 px-2.5 py-0.5 text-[10px] font-bold text-white mb-2">⚡ FOTOIN SPORTS</div>
-        <h1 className="text-[22px] font-extrabold text-white mb-1">Surabaya City Marathon 2026</h1>
+        <div className="inline-flex items-center rounded-full bg-violet-600 px-2.5 py-0.5 text-[10px] font-bold text-white mb-2">⚡ FOTOIN SPORTS</div>
+        <h1 className="text-[22px] font-extrabold text-white mb-1">{event.name}</h1>
         <div className="flex items-center gap-3 text-sm text-white/60">
-          <span>📅 15 Maret 2026</span>
-          <span>📍 Surabaya</span>
+          <span>📅 {event.date}</span>
+          <span>📍 {event.location}</span>
         </div>
         <div className="flex items-center gap-3 text-sm mt-1" style={{ color: '#A78BFA' }}>
-          <span>3.847 foto tersedia · 12 fotografer</span>
+          <span>{event.photos} foto tersedia · {event.photographers} fotografer</span>
         </div>
       </div>
 
@@ -89,7 +141,7 @@ export default async function EventCheckPage({ params }: PageProps<'/sports/[eve
               </div>
             ))}
             <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gray-800 text-xs font-bold text-white">
-              +3.844
+              {event.previewRemainder}
             </div>
           </div>
         </div>

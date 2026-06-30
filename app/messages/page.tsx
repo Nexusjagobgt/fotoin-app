@@ -72,7 +72,7 @@ export default function MessagesPage() {
               </div>
               <p className="text-xs text-gray-500 truncate">{conv.lastMsg}</p>
               {conv.tag && (
-                <div className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-medium" style={{ backgroundColor: conv.tagColor, color: conv.tagText }}>
+                <div className="mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium" style={{ backgroundColor: conv.tagColor, color: conv.tagText }}>
                   {conv.tag}
                 </div>
               )}

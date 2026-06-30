@@ -1,7 +1,16 @@
 import Link from 'next/link';
 
+const eventData: Record<string, { name: string; date: string; photos: string; previewRemainder: string }> = {
+  'marathon-2026':  { name: 'Surabaya City Marathon 2026', date: '15 Maret 2026',     photos: '3.847', previewRemainder: '+3.844' },
+  'cycling-2026':   { name: 'Gran Fondo Surabaya',          date: '22 Februari 2026',  photos: '1.203', previewRemainder: '+1.200' },
+  'campus-fun-run': { name: 'Campus Fun Run Petra',          date: '2 Maret 2026',      photos: '934',   previewRemainder: '+931'   },
+  'night-run':      { name: 'Surabaya Night Run',            date: '8 Februari 2026',   photos: '2.156', previewRemainder: '+2.153' },
+};
+const fallbackEvent = { name: 'Event Olahraga', date: '—', photos: '0', previewRemainder: '+0' };
+
 export default async function EventSearchPage({ params }: PageProps<'/sports/[eventId]'>) {
   const { eventId } = await params;
+  const event = eventData[eventId] ?? fallbackEvent;
 
   return (
     <div className="flex min-h-svh flex-col bg-white">
@@ -13,8 +22,8 @@ export default async function EventSearchPage({ params }: PageProps<'/sports/[ev
           </svg>
         </Link>
         <div>
-          <div className="text-sm font-bold text-gray-900">Surabaya Marathon 2026</div>
-          <div className="text-xs text-gray-400">2.847 foto tersedia · 12 April 2026</div>
+          <div className="text-sm font-bold text-gray-900">{event.name}</div>
+          <div className="text-xs text-gray-400">{event.photos} foto tersedia · {event.date}</div>
         </div>
       </div>
 
@@ -30,7 +39,7 @@ export default async function EventSearchPage({ params }: PageProps<'/sports/[ev
             href="/sports/processing"
             className="flex flex-col items-center gap-3 rounded-2xl border-2 border-violet-300 bg-violet-50 p-4 relative"
           >
-            <div className="absolute top-2 left-2 rounded-full bg-violet-600 px-2 py-0.5 text-[9px] font-bold text-white">REKOMENDASI</div>
+            <div className="absolute top-2 left-2 inline-flex items-center rounded-full bg-violet-600 px-2 py-0.5 text-[9px] font-bold text-white">REKOMENDASI</div>
             <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="8" width="18" height="13" rx="2" stroke="#7C3AED" strokeWidth="1.8" />
@@ -86,7 +95,7 @@ export default async function EventSearchPage({ params }: PageProps<'/sports/[ev
             ].map((src, i) => (
               <div key={i} className="h-20 flex-1 overflow-hidden rounded-xl" style={{ backgroundImage: `url(${src})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
             ))}
-            <div className="flex h-20 flex-1 items-center justify-center rounded-xl bg-gray-100 text-xs font-bold text-gray-500">+2.844</div>
+            <div className="flex h-20 flex-1 items-center justify-center rounded-xl bg-gray-100 text-xs font-bold text-gray-500">{event.previewRemainder}</div>
           </div>
         </div>
       </div>

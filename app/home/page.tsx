@@ -23,7 +23,7 @@ export default function HomePage() {
             </svg>
             <div className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500" />
           </div>
-          <Link href="/photographer/home" className="rounded-full border-[1.5px] border-violet-600 bg-violet-100 px-2.5 py-1">
+          <Link href="/photographer/home" className="inline-flex items-center rounded-full border-[1.5px] border-violet-600 bg-violet-100 px-2.5 py-1">
             <span className="text-xs font-medium text-violet-700">Customer</span>
           </Link>
           <div className="h-[34px] w-[34px] rounded-full border-2 border-violet-600" style={{ backgroundImage: 'url(https://i.pravatar.cc/40?img=33)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
@@ -96,6 +96,49 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* FOTOIN Sports banner */}
+        <div className="mt-2 bg-white px-4 py-4">
+          <Link href="/sports" className="relative block h-32 overflow-hidden rounded-2xl">
+            {/* Background photo */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=500&h=250&fit=crop)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            {/* Gradient overlay: dark on left for text legibility, fades right */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.1) 100%)' }}
+            />
+
+            {/* Content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-3.5">
+              {/* Top: badge */}
+              <div className="self-start inline-flex items-center rounded-full bg-white/20 px-2.5 py-0.5 backdrop-blur-sm">
+                <span className="text-[10px] font-bold text-white">⚡ AI-Powered</span>
+              </div>
+
+              {/* Bottom: text + button */}
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <div className="text-sm font-bold leading-snug text-white">
+                    Cari Fotomu di<br />Event Olahraga
+                  </div>
+                  <div className="mt-0.5 text-[11px] text-white/70">
+                    Ribuan foto, ditemukan otomatis dengan AI
+                  </div>
+                </div>
+                <div className="flex-shrink-0 rounded-full bg-white px-4 py-1.5 text-[12px] font-semibold text-gray-900">
+                  Lihat Event →
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Featured photographers */}
         <div className="mt-2 bg-white px-4 pb-3 pt-4">
           <div className="mb-3 flex items-center justify-between">
@@ -125,7 +168,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-[13px] font-bold" style={{ color: '#7C3AED' }}>{p.price}</div>
                 <div className="mt-1.5 flex items-center gap-1">
-                  <div className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: p.availableColor, color: p.availableText }}>
+                  <div className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: p.availableColor, color: p.availableText }}>
                     ✅ {p.available}
                   </div>
                   <span className="text-[10px] text-gray-500">{p.km}</span>
@@ -164,7 +207,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-[13px] font-bold" style={{ color: '#7C3AED' }}>{p.price}</div>
                 <div className="mt-1.5 flex items-center gap-1">
-                  <div className="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-600">✅ Hari Ini</div>
+                  <div className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-600">✅ Hari Ini</div>
                   <span className="text-[10px] text-gray-500">{p.km}</span>
                 </div>
                 <div className="mt-1 text-[10px] text-gray-500">⚡ Balas &lt;1 jam</div>

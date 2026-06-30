@@ -178,7 +178,7 @@ export default function BookingDetailPage() {
               <div className="text-xs text-gray-500 mt-0.5">{booking.type}</div>
               <div className="mt-1.5">
                 <span
-                  className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
+                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
                   style={{ backgroundColor: booking.statusBg, color: booking.statusColor }}
                 >
                   {booking.status}
@@ -221,7 +221,7 @@ export default function BookingDetailPage() {
                   </div>
                 </div>
               </div>
-              <span className="rounded-full bg-violet-50 px-2.5 py-0.5 text-[10px] font-semibold text-violet-600">
+              <span className="inline-flex items-center rounded-full bg-violet-50 px-2.5 py-0.5 text-[10px] font-semibold text-violet-600">
                 Lunas
               </span>
             </div>

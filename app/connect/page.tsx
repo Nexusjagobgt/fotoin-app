@@ -35,7 +35,7 @@ export default function ConnectPage() {
         </div>
         <Link
           href="/photographer/home"
-          className="ml-auto rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700"
+          className="ml-auto inline-flex items-center rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700"
         >
           Customer
         </Link>

@@ -110,7 +110,7 @@ export default async function ChatPage({ params }: PageProps<'/messages/[id]'>) 
                       <div className="text-xs font-medium text-white">{slot.date}</div>
                       <div className="text-[10px] text-white/70">{slot.time}</div>
                     </div>
-                    <span className="rounded-full bg-green-500 px-2 py-0.5 text-[10px] font-semibold text-white">Tersedia</span>
+                    <span className="inline-flex items-center rounded-full bg-green-500 px-2 py-0.5 text-[10px] font-semibold text-white">Tersedia</span>
                   </div>
                 ))}
                 <div className="flex gap-2 mt-2">

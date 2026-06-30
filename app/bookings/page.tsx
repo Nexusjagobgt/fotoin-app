@@ -100,7 +100,7 @@ export default function BookingsPage() {
                 <div className="text-sm font-bold text-gray-900">{booking.name}</div>
                 <div className="text-xs text-gray-500">{booking.type}</div>
               </div>
-              <div className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ backgroundColor: booking.statusBg, color: booking.statusColor }}>
+              <div className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold" style={{ backgroundColor: booking.statusBg, color: booking.statusColor }}>
                 {booking.status}
               </div>
             </div>

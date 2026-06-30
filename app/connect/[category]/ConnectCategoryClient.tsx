@@ -120,7 +120,7 @@ function PhotographerCard({ p, category }: { p: Photographer; category: string }
       {/* Style tags */}
       <div className="mb-2 flex flex-wrap gap-1.5">
         {p.styles.map((s) => (
-          <span key={s} className="rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">{s}</span>
+          <span key={s} className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">{s}</span>
         ))}
       </div>
 
@@ -219,7 +219,7 @@ export default function ConnectCategoryClient({
         <span className="text-base font-bold text-gray-900">{config.name}</span>
         <Link
           href="/photographer/home"
-          className="rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700"
+          className="inline-flex items-center rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700"
         >
           Customer
         </Link>

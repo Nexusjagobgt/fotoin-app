@@ -35,7 +35,7 @@ export default async function EventSearchPage({ params }: { params: Promise<{ ev
             href="/sports/processing"
             className="flex flex-col items-center gap-3 rounded-2xl border-2 border-violet-300 bg-violet-50 p-4 relative"
           >
-            <div className="absolute top-2 left-2 rounded-full bg-violet-600 px-2 py-0.5 text-[9px] font-bold text-white">REKOMENDASI</div>
+            <div className="absolute top-2 left-2 inline-flex items-center rounded-full bg-violet-600 px-2 py-0.5 text-[9px] font-bold text-white">REKOMENDASI</div>
             <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="8" width="18" height="13" rx="2" stroke="#7C3AED" strokeWidth="1.8" />

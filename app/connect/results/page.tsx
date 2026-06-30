@@ -58,15 +58,15 @@ export default function ResultsPage() {
       <div className="bg-white px-4 pb-3 flex flex-col gap-2 border-b border-gray-100">
         <div className="flex gap-2 overflow-x-auto">
           {['Wedding ×', 'Rp 250rb-500rb ×', '15 April ×'].map((f) => (
-            <div key={f} className="flex-shrink-0 rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700">{f}</div>
+            <div key={f} className="flex-shrink-0 inline-flex items-center rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700">{f}</div>
           ))}
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs text-gray-500">24 fotografer ditemukan</span>
           <div className="flex gap-1.5 ml-auto">
-            <div className="rounded-full bg-violet-600 px-3 py-1 text-xs font-medium text-white">Relevansi</div>
-            <div className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Harga ↑</div>
-            <div className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Rating ↑</div>
+            <div className="inline-flex items-center rounded-full bg-violet-600 px-3 py-1 text-xs font-medium text-white">Relevansi</div>
+            <div className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Harga ↑</div>
+            <div className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Rating ↑</div>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function ResultsPage() {
             {/* Style tags */}
             <div className="mb-2 flex gap-1.5">
               {p.styles.map((s) => (
-                <span key={s} className="rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">{s}</span>
+                <span key={s} className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">{s}</span>
               ))}
             </div>
 

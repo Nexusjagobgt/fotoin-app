@@ -33,7 +33,7 @@ export default function PhotographerHomePage() {
               <div className="h-2 w-2 rounded-full bg-white" />
               Aktif
             </div>
-            <Link href="/home" className="rounded-full border border-white/40 bg-white/20 px-2.5 py-1">
+            <Link href="/home" className="inline-flex items-center rounded-full border border-white/40 bg-white/20 px-2.5 py-1">
               <span className="text-xs font-medium text-white">Fotografer</span>
             </Link>
           </div>
@@ -72,7 +72,7 @@ export default function PhotographerHomePage() {
                   <span>📍</span><span>Universitas Petra, SBY</span>
                 </div>
               </div>
-              <div className="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">Confirmed</div>
+              <div className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">Confirmed</div>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function PhotographerHomePage() {
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-gray-900">Konsultasi Menunggu</span>
-              <div className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-white">3 baru</div>
+              <div className="inline-flex items-center rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-white">3 baru</div>
             </div>
             <Link href="/messages" className="text-xs font-semibold" style={{ color: '#7C3AED' }}>Balas →</Link>
           </div>

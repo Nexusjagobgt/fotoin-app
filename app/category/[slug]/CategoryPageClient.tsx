@@ -49,7 +49,7 @@ function PhotographerCard({ p }: { p: (typeof photographers)[number] }) {
 
       <div className="mb-2 flex gap-1.5">
         {p.styles.map((s) => (
-          <span key={s} className="rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">
+          <span key={s} className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-0.5 text-[11px] text-gray-600">
             {s}
           </span>
         ))}
@@ -136,7 +136,7 @@ function ProductServiceSelector({ selected, onSelect }: { selected: string; onSe
               <div className="mt-0.5 text-xs text-gray-500">{opt.subtitle}</div>
               <div className="mt-0.5 text-xs text-gray-400">{opt.tagline}</div>
               <div
-                className="mt-2 inline-block rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+                className="mt-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium"
                 style={{ backgroundColor: opt.chipBg, color: opt.chipText }}
               >
                 {opt.chip}
@@ -181,7 +181,7 @@ export default function CategoryPageClient({ slug, meta }: { slug: string; meta:
           </svg>
         </Link>
         <span className="text-base font-bold text-gray-900">{meta.name}</span>
-        <div className="rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700">
+        <div className="inline-flex items-center rounded-full border border-violet-600 bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-700">
           Customer
         </div>
       </div>
@@ -261,8 +261,8 @@ export default function CategoryPageClient({ slug, meta }: { slug: string; meta:
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">{filtered.length} fotografer ditemukan</span>
               <div className="flex gap-1.5">
-                <div className="rounded-full bg-violet-600 px-3 py-1 text-xs font-medium text-white">Relevansi</div>
-                <div className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Rating ↑</div>
+                <div className="inline-flex items-center rounded-full bg-violet-600 px-3 py-1 text-xs font-medium text-white">Relevansi</div>
+                <div className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-500">Rating ↑</div>
               </div>
             </div>
             {filtered.map((p) => (

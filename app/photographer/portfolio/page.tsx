@@ -74,7 +74,7 @@ export default function PortfolioPage() {
 
               {/* Consent badge */}
               {photo.badge && (
-                <div className="absolute top-2 left-2 rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ backgroundColor: photo.badgeBg, color: photo.badgeColor }}>
+                <div className="absolute top-2 left-2 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ backgroundColor: photo.badgeBg, color: photo.badgeColor }}>
                   {photo.badge}
                 </div>
               )}
@@ -87,7 +87,7 @@ export default function PortfolioPage() {
 
               {/* Draft badge */}
               {photo.visibility === 'Draft' && (
-                <div className="absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ backgroundColor: '#F59E0B', color: 'white' }}>Draft</div>
+                <div className="absolute top-2 right-2 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ backgroundColor: '#F59E0B', color: 'white' }}>Draft</div>
               )}
 
               {/* Title + actions */}

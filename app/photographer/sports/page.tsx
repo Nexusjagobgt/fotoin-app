@@ -80,7 +80,7 @@ export default function PhotographerSportsPage() {
             className="object-contain"
             style={{ filter: 'brightness(0) invert(1)' }}
           /></Link>
-          <div className="rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-semibold text-white">
+          <div className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-semibold text-white">
             {totalUploaded} foto diunggah
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function PhotographerSportsPage() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="text-sm font-bold text-gray-900 leading-snug">{ev.name}</div>
                   {ev.active && (
-                    <div className="flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">
+                    <div className="inline-flex items-center flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">
                       Event Aktif
                     </div>
                   )}

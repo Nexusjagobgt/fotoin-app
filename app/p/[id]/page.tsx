@@ -43,7 +43,7 @@ export default async function PhotographerProfilePage({ params }: PageProps<'/p/
           {/* Style tags */}
           <div className="mt-3 flex flex-wrap gap-1.5">
             {['Romantic', 'Candid', 'Outdoor', 'Indoor', 'Natural Light'].map((s) => (
-              <span key={s} className="rounded-full border border-gray-200 px-2.5 py-0.5 text-xs text-gray-600">{s}</span>
+              <span key={s} className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-0.5 text-xs text-gray-600">{s}</span>
             ))}
           </div>
         </div>

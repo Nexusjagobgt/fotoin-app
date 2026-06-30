@@ -34,7 +34,7 @@ export default function ReviewPage() {
             <div className="text-sm font-bold text-gray-900">Rizki Pratama</div>
             <div className="text-xs text-gray-500">Wedding Photography · ⭐ 4.9</div>
           </div>
-          <div className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">Selesai</div>
+          <div className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">Selesai</div>
         </div>
 
         {/* Session badge */}

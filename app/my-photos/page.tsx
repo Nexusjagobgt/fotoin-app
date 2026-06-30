@@ -244,7 +244,7 @@ function SportsCard({ card }: { card: SportsCard }) {
           <div className="text-sm font-bold text-gray-900 leading-snug">{card.event}</div>
           <div className="text-xs text-gray-400">📅 {card.date}</div>
         </div>
-        <div className="rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-semibold text-violet-700">
+        <div className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-semibold text-violet-700">
           {card.category}
         </div>
       </div>
