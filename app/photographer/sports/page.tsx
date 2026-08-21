@@ -1,152 +1,90 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
 
 const events = [
-  {
-    id: 'marathon-2026',
-    name: 'Surabaya City Marathon 2026',
-    date: '15 Mar',
-    location: 'Surabaya',
-    photos: '3.847',
-    photographers: '12',
-    active: true,
-    img: 'https://picsum.photos/seed/marathon/400/300',
-    uploaded: 47,
-  },
-  {
-    id: 'cycling-2026',
-    name: 'Gran Fondo Surabaya',
-    date: '22 Feb',
-    location: 'Surabaya',
-    photos: '1.203',
-    photographers: '6',
-    active: false,
-    img: 'https://picsum.photos/seed/cycling/400/300',
-    uploaded: 23,
-  },
-  {
-    id: 'campus-fun-run',
-    name: 'Campus Fun Run Petra',
-    date: '2 Mar',
-    location: 'Surabaya',
-    photos: '934',
-    photographers: '4',
-    active: false,
-    img: 'https://picsum.photos/seed/running/400/300',
-    uploaded: 12,
-  },
-  {
-    id: 'night-run',
-    name: 'Surabaya Night Run',
-    date: '8 Feb',
-    location: 'Surabaya',
-    photos: '2.156',
-    photographers: '8',
-    active: false,
-    img: 'https://picsum.photos/seed/nightrun/400/300',
-    uploaded: 35,
-  },
+  { id: 'marathon-2026', name: 'Surabaya City Marathon 2026', date: '15 Mar', location: 'Surabaya', photos: '3.847', price: 'Rp25.000', img: 'https://picsum.photos/seed/marathon/800/400', uploaded: 48, joined: true },
+  { id: 'cycling-2026', name: 'Gran Fondo Surabaya', date: '22 Feb', location: 'Surabaya', photos: '1.203', price: 'Rp25.000', img: 'https://picsum.photos/seed/cycling/800/400', uploaded: 23, joined: true },
+  { id: 'campus-fun-run', name: 'Campus Fun Run Petra', date: '2 Mar', location: 'Surabaya', photos: '934', price: 'Rp20.000', img: 'https://picsum.photos/seed/running/800/400', uploaded: 12, joined: false },
+  { id: 'night-run', name: 'Surabaya Night Run', date: '8 Feb', location: 'Surabaya', photos: '2.156', price: 'Rp20.000', img: 'https://picsum.photos/seed/nightrun/800/400', uploaded: 35, joined: false },
 ];
 
 export default function PhotographerSportsPage() {
-  const totalUploaded = events.reduce((sum, e) => sum + e.uploaded, 0);
+  const [eventList, setEventList] = useState(() => {
+    if (typeof window === 'undefined') return events;
+    try {
+      const value = JSON.parse(window.localStorage.getItem('fotoin-sports-upload-marathon-2026') ?? '{}') as { lastBatchCount?: number; price?: number };
+      return events.map((event) => event.id === 'marathon-2026' ? {
+        ...event,
+        uploaded: event.uploaded + (value.lastBatchCount ?? 0),
+        price: value.price ? `Rp${new Intl.NumberFormat('id-ID').format(value.price)}` : event.price,
+      } : event);
+    } catch {
+      return events;
+    }
+  });
+
+  const totalUploaded = eventList.reduce((total, event) => total + event.uploaded, 0);
+  const joinEvent = (eventId: string) => setEventList((current) => current.map((event) => event.id === eventId ? { ...event, joined: true } : event));
 
   return (
-    <div className="flex h-svh flex-col bg-gray-50">
-      {/* Status bar */}
-      <div className="flex items-center justify-between bg-white px-5 pt-3 pb-1" style={{ background: 'linear-gradient(135deg, #6B21F5 0%, #4C1D95 100%)' }}>
-        <span className="text-xs font-semibold text-white">9:41</span>
-        <div className="flex items-center gap-1">
-          <div className="flex items-center rounded-sm border border-white/40 px-0.5">
-            <div className="h-2.5 w-5 rounded-sm bg-white" />
-            <div className="h-1.5 w-0.5 rounded-r-sm bg-white/50" />
-          </div>
-        </div>
-      </div>
-
-      {/* Purple header */}
-      <div
-        className="flex flex-col px-4 pt-3 pb-4 gap-1.5 flex-shrink-0"
-        style={{ background: 'linear-gradient(135deg, #6B21F5 0%, #4C1D95 100%)' }}
-      >
+    <div className="flex h-svh flex-col bg-[#FAFAFC]">
+      <header className="shrink-0 border-b border-gray-100 bg-white px-4 pt-2.5 pb-3">
         <div className="flex items-center justify-between">
-          <Link href="/"><Image
-            src="/images/FOTOIN LOGO.png"
-            alt="FOTOIN"
-            width={100}
-            height={26}
-            priority
-            className="object-contain"
-            style={{ filter: 'brightness(0) invert(1)' }}
-          /></Link>
-          <div className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-semibold text-white">
-            {totalUploaded} foto diunggah
+          <Link href="/photographer/dashboard"><Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={100} height={26} priority className="object-contain" /></Link>
+          <div className="flex items-center gap-3">
+            <button className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gray-50" aria-label="Notifikasi">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke="#4B5563" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-white" />
+            </button>
+            <Link href="/photographer/profil" className="relative h-9 w-9 overflow-hidden rounded-full bg-violet-50 ring-1 ring-violet-100"><Image src="https://i.pravatar.cc/150?img=11" alt="Profil Rizki" fill className="object-cover" /></Link>
           </div>
         </div>
-        <div className="mt-0.5">
-          <div className="text-lg font-bold text-white">Upload Event Sports</div>
-          <div className="text-xs text-white/70">Kelola & upload fotomu ke event olahraga</div>
-        </div>
-      </div>
+        <div className="mt-3"><h1 className="text-[20px] font-bold tracking-tight text-gray-900">Upload Event Sports</h1><p className="mt-0.5 text-[12px] text-gray-500">Kelola dan ungggah foto ke event olahraga</p></div>
+      </header>
 
-      {/* Event list */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 flex flex-col gap-3">
-        {events.map((ev) => (
-          <div key={ev.id} className="rounded-2xl bg-white border border-gray-100 overflow-hidden">
-            <div className="flex gap-3 p-3.5">
-              {/* Thumbnail */}
-              <div
-                className="h-16 w-16 flex-shrink-0 rounded-xl"
-                style={{
-                  backgroundImage: `url(${ev.img})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
+      <main className="min-h-0 flex-1 overflow-y-auto px-4 py-3 pb-5">
+        <section className="rounded-2xl border border-violet-100 bg-violet-50/80 px-3.5 py-2.5">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-violet-700">Upload Sports Bulan Ini</div>
+          <div className="mt-2 flex items-end gap-4">
+            <div><div className="text-lg font-extrabold leading-none text-gray-900">{totalUploaded}</div><div className="mt-1 text-[10px] font-medium text-gray-500">foto diunggah</div></div>
+            <div className="h-7 w-px bg-violet-200" />
+            <div><div className="text-lg font-extrabold leading-none text-gray-900">4</div><div className="mt-1 text-[10px] font-medium text-gray-500">event aktif</div></div>
+            <div className="ml-auto rounded-full bg-white/80 px-2 py-0.5 text-[9px] font-bold text-violet-700">+24 minggu ini</div>
+          </div>
+        </section>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="text-sm font-bold text-gray-900 leading-snug">{ev.name}</div>
-                  {ev.active && (
-                    <div className="inline-flex items-center flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">
-                      Event Aktif
-                    </div>
-                  )}
+        <div className="mt-4 mb-2 flex items-center justify-between"><h2 className="text-[15px] font-bold text-gray-900">Event Aktif</h2><span className="text-[10px] font-medium text-gray-400">Pilih event untuk unggah foto</span></div>
+        <div className="flex flex-col gap-4 pb-6">
+          {eventList.map((event) => (
+            <article key={event.id} className="h-auto min-h-0 rounded-2xl border border-gray-100 bg-white p-3.5 shadow-[0_4px_14px_rgba(31,41,55,0.04)]">
+              <div className="flex min-w-0 items-start gap-3">
+                <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
+                  <Image src={event.img} alt={event.name} fill className="object-cover" sizes="112px" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
+                  <span className="absolute left-2 top-2 rounded-full bg-green-500 px-1.5 py-0.5 text-[8px] font-extrabold tracking-wide text-white">AKTIF</span>
                 </div>
-                <div className="mt-0.5 flex items-center gap-1 text-xs text-gray-400">
-                  <span>📅 {ev.date}</span>
-                  <span>·</span>
-                  <span>📍 {ev.location}</span>
-                </div>
-                <div className="mt-1 flex items-center gap-1.5">
-                  <div className="flex items-center gap-1 rounded-full bg-violet-50 px-2 py-0.5">
-                    <span className="text-[10px] font-bold text-violet-700">{ev.uploaded} foto</span>
-                    <span className="text-[10px] text-violet-400">sudah diupload</span>
-                  </div>
-                  <span className="text-[10px] text-gray-300">·</span>
-                  <span className="text-[10px] text-gray-400">{ev.photos} total</span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-[15px] font-bold leading-snug text-gray-900">{event.name}</h3>
+                  <div className="mt-1 flex items-center gap-1 text-[11px] font-medium text-gray-500"><span>{event.date}</span><span className="text-gray-300">·</span><span>{event.location}</span></div>
+                  <div className="mt-2 text-[11px]"><span className="font-bold text-violet-700">{event.uploaded} foto kamu</span><span className="mx-1 text-gray-300">·</span><span className="font-medium text-gray-400">{event.photos} foto event</span></div>
+                  <div className="mt-2 flex items-baseline gap-1"><span className="text-[11px] font-medium text-gray-500">Harga:</span><span className="text-[13px] font-bold text-gray-900">{event.price}</span><span className="text-[11px] font-medium text-gray-500">/foto</span></div>
                 </div>
               </div>
-            </div>
-
-            {/* Upload button */}
-            <div className="border-t border-gray-50 px-3.5 py-2.5">
-              <Link
-                href={`/photographer/sports/${ev.id}/upload`}
-                className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold text-white active:scale-95 transition-transform"
-                style={{ backgroundColor: '#6B21F5' }}
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Upload Foto
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
+              <div className="mt-3">
+                {event.joined ? (
+                  <div className="flex gap-2"><Link href={`/photographer/sports/${event.id}/upload`} className="flex-[0.8] rounded-xl border border-gray-200 py-2.5 text-center text-[11px] font-bold text-gray-700 active:bg-gray-50">Kelola Foto</Link><Link href={`/photographer/sports/${event.id}/upload`} className="flex-[1.4] rounded-xl bg-violet-600 py-2.5 text-center text-[12px] font-bold text-white shadow-sm transition-transform active:scale-[0.98]">{event.uploaded ? 'Upload Foto Lagi' : 'Upload Foto'}</Link></div>
+                ) : (
+                  <button onClick={() => joinEvent(event.id)} className="w-full rounded-xl border border-violet-200 bg-violet-50 py-2.5 text-[12px] font-bold text-violet-700 active:scale-[0.98]">Gabung Event</button>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </main>
 
       <BottomNav mode="photographer" />
     </div>

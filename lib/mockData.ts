@@ -143,7 +143,72 @@ export const photographers = [
     extraPhotos: 13,
     avatar: 'https://i.pravatar.cc/80?img=30',
   },
+  {
+    id: 'budi-sports', name: 'Budi Santoso', categories: ['sports-photography'], verified: true, og: true,
+    specialty: 'Sports & Action Photography', rating: '4.9', sessions: '98', response: '<1jam',
+    price: 'Rp 350.000/jam', priceNum: 350000, available: 'Hari Ini', distance: '1.1 km', location: 'Surabaya',
+    styles: ['Marathon', 'Running', 'Tournament'], extraPhotos: 18, avatar: 'https://i.pravatar.cc/80?img=14',
+  },
+  {
+    id: 'fajar-sports', name: 'Fajar Nugraha', categories: ['sports-photography'], verified: true, og: false,
+    specialty: 'Running & Cycling Photography', rating: '4.8', sessions: '74', response: '<2jam',
+    price: 'Rp 300.000/jam', priceNum: 300000, available: 'Besok', distance: '2.2 km', location: 'Surabaya',
+    styles: ['Running', 'Cycling', 'Marathon'], extraPhotos: 14, avatar: 'https://i.pravatar.cc/80?img=59',
+  },
+  {
+    id: 'devano-sports', name: 'Devano Putra', categories: ['sports-photography'], verified: true, og: true,
+    specialty: 'Football & Team Sports Photography', rating: '4.9', sessions: '112', response: '<1jam',
+    price: 'Rp 400.000/jam', priceNum: 400000, available: '15 April', distance: '3.0 km', location: 'Surabaya',
+    styles: ['Football', 'Team Photos', 'Tournament'], extraPhotos: 22, avatar: 'https://i.pravatar.cc/80?img=12',
+  },
+  {
+    id: 'sinta-sports', name: 'Sinta Rahayu', categories: ['sports-photography'], verified: true, og: false,
+    specialty: 'Indoor Sports Photography', rating: '4.7', sessions: '63', response: '<2jam',
+    price: 'Rp 325.000/jam', priceNum: 325000, available: 'Minggu Ini', distance: '1.8 km', location: 'Surabaya',
+    styles: ['Basketball', 'Badminton', 'Fitness'], extraPhotos: 10, avatar: 'https://i.pravatar.cc/80?img=20',
+  },
+  {
+    id: 'bagas-sports', name: 'Bagas Firmansyah', categories: ['sports-photography'], verified: true, og: true,
+    specialty: 'Sports Event Documentation', rating: '4.8', sessions: '86', response: '<1jam',
+    price: 'Rp 375.000/jam', priceNum: 375000, available: 'Hari Ini', distance: '2.6 km', location: 'Surabaya',
+    styles: ['Sports Event', 'Tournament', 'Team Photos'], extraPhotos: 16, avatar: 'https://i.pravatar.cc/80?img=8',
+  },
+  {
+    id: 'sari-dewi', name: 'Sari Dewi', categories: ['wedding', 'personal'], verified: true, og: false,
+    specialty: 'Wedding & Portrait', rating: '4.9', sessions: '145', response: '<1jam',
+    price: 'Rp 350.000/jam', priceNum: 350000, available: 'Besok', distance: '1.5 km', location: 'Surabaya',
+    styles: ['Romantic', 'Candid', 'Elegant'], extraPhotos: 15, avatar: 'https://i.pravatar.cc/80?img=5',
+  },
+  {
+    id: 'maya-kusuma', name: 'Maya Kusuma', categories: ['wedding', 'event'], verified: false, og: false,
+    specialty: 'Wedding Photography', rating: '4.7', sessions: '62', response: '<2jam',
+    price: 'Rp 400.000/jam', priceNum: 400000, available: 'Hari Ini', distance: '3.2 km', location: 'Surabaya',
+    styles: ['Classic', 'Candid'], extraPhotos: 12, avatar: 'https://i.pravatar.cc/80?img=9',
+  }
 ];
+
+export type Photographer = (typeof photographers)[number];
+
+const photographerIdAliases: Record<string, string> = {
+  'rizki-pratama': 'rizki',
+  'dinda-aulia': 'dinda',
+  'bagas-firmansyah': 'bagas',
+  'sinta-rahayu': 'sinta',
+  'devano-putra': 'devano',
+  'budi-santoso': 'budi-sports',
+  budi: 'budi-sports',
+  'fajar-nugraha': 'fajar-sports',
+  fajar: 'fajar-sports',
+  'sari-dewi': 'sari-dewi',
+  'maya-kusuma': 'maya-kusuma',
+  sari: 'sari-dewi',
+  maya: 'maya-kusuma',
+};
+
+export function getPhotographerById(id: string): Photographer | undefined {
+  const photographerId = photographerIdAliases[id] ?? id;
+  return photographers.find((photographer) => photographer.id === photographerId);
+}
 
 export const categoryMeta: Record<string, { name: string; desc: string; subdesc: string; img: string }> = {
   wedding: {
@@ -206,6 +271,7 @@ export const connectCategories = [
   'Wedding Photography',
   'Graduation Photography',
   'Event Documentation',
+  'Sports Photography',
   'Product Photography',
   'Food Photography',
   'Corporate Photography',
@@ -228,7 +294,7 @@ export const connectConfig: Record<string, ConnectCategoryConfig> = {
     tagline: 'Abadikan hari istimewamu',
     desc: 'Abadikan momen pernikahan terbaik',
     picsumSeed: 'wedding-ceremony',
-    photographerIds: ['rizki', 'devano'],
+    photographerIds: ['rizki', 'devano', 'maya-kusuma', 'sari-dewi'],
   },
   graduation: {
     name: 'Graduation Photography',
@@ -244,7 +310,15 @@ export const connectConfig: Record<string, ConnectCategoryConfig> = {
     tagline: 'Dokumentasi acara profesional',
     desc: 'Dokumentasi acara profesional',
     picsumSeed: 'concert',
-    photographerIds: ['bagas', 'ayu', 'rizki'],
+    photographerIds: ['bagas', 'ayu', 'rizki', 'maya-kusuma'],
+  },
+  'sports-photography': {
+    name: 'Sports Photography',
+    icon: '',
+    tagline: 'Abadikan setiap aksi dan momen terbaik di lapangan.',
+    desc: 'Untuk pertandingan, latihan, komunitas, turnamen, hingga dokumentasi event olahraga.',
+    picsumSeed: 'sports-action',
+    photographerIds: ['budi-sports', 'fajar-sports', 'devano-sports', 'sinta-sports', 'bagas-sports'],
   },
   product: {
     name: 'Product Photography',
@@ -276,7 +350,7 @@ export const connectConfig: Record<string, ConnectCategoryConfig> = {
     tagline: 'Ekspresikan dirimu',
     desc: 'Ekspresikan dirimu',
     picsumSeed: 'portrait',
-    photographerIds: ['dinda', 'sinta', 'rizki', 'devano'],
+    photographerIds: ['dinda', 'sinta', 'rizki', 'devano', 'sari-dewi'],
   },
   birthday: {
     name: 'Birthday Photography',

@@ -1,0 +1,1 @@
+import Privasi from '../../shared/privasi/page'; export default function P() { return <Privasi mode='client' />; }

@@ -1,0 +1,1 @@
+import Bantuan from '../../shared/bantuan/page'; export default function P() { return <Bantuan mode='client' />; }

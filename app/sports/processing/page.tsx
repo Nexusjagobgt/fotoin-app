@@ -1,29 +1,40 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 const stageLabels = [
-  'Foto berhasil diupload',
-  'Analisa fitur wajah selesai',
-  'Mencocokkan dari 2.847 foto...',
+  'Memeriksa data event',
+  'Mencocokkan wajahmu',
   'Menyiapkan hasil',
 ];
 
-const stageDoneAt = [25, 50, 90, 100];
+const stageDoneAt = [30, 85, 100];
 
 function getProgress(elapsed: number): number {
   if (elapsed >= 8000) return 100;
-  if (elapsed < 2000) return (elapsed / 2000) * 25;
-  if (elapsed < 4000) return 25 + ((elapsed - 2000) / 2000) * 25;
-  if (elapsed < 7000) return 50 + ((elapsed - 4000) / 3000) * 40;
-  return 90 + ((elapsed - 7000) / 1000) * 10;
+  if (elapsed < 2500) return (elapsed / 2500) * 30;
+  if (elapsed < 6500) return 30 + ((elapsed - 2500) / 4000) * 55;
+  return 85 + ((elapsed - 6500) / 1500) * 15;
 }
 
-export default function ProcessingPage() {
+import { Suspense } from 'react';
+
+function ProcessingContent() {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const resultsHref = `/sports/results${searchParams.size ? `?${searchParams.toString()}` : ''}`;
+  const eventId = searchParams.get('eventId');
+  const backHref = eventId
+      ? `/sports/${eventId}/check?${new URLSearchParams({
+        ...(searchParams.get('eventName') ? { eventName: searchParams.get('eventName')! } : {}),
+        ...(searchParams.get('category') ? { category: searchParams.get('category')! } : {}),
+        ...(searchParams.get('bib') ? { bib: searchParams.get('bib')! } : {}),
+        ...(searchParams.get('faceScanned') === '1' ? { faceScanned: '1' } : {}),
+      }).toString()}`
+    : '/sports';
 
   useEffect(() => {
     const startTime = performance.now();
@@ -44,7 +55,7 @@ export default function ProcessingPage() {
     }, 8000);
 
     const redirectTimer = setTimeout(() => {
-      router.push('/sports/results');
+      router.push(resultsHref);
     }, 9000);
 
     return () => {
@@ -52,7 +63,7 @@ export default function ProcessingPage() {
       clearTimeout(completeTimer);
       clearTimeout(redirectTimer);
     };
-  }, [router]);
+  }, [resultsHref, router]);
 
   const displayPct = Math.min(100, Math.round(progress));
   const showSkip = progress >= 50;
@@ -72,7 +83,7 @@ export default function ProcessingPage() {
 
       {/* Back button */}
       <Link
-        href="/sports"
+        href={backHref}
         className="absolute left-4 top-10 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -81,29 +92,21 @@ export default function ProcessingPage() {
       </Link>
 
       <div className="relative z-10 flex w-full max-w-[300px] flex-col items-center">
-        {/* Avatar with rotating gradient border */}
+        {/* Search and success status */}
         <div className="relative mb-4 flex items-center justify-center">
-          <div
-            className={`h-[88px] w-[88px] rounded-full p-[3px] ${isComplete ? '' : 'animate-spin'}`}
-            style={{
-              background: isComplete
-                ? '#22C55E'
-                : 'conic-gradient(#6B21F5 0%, #22C55E 50%, #6B21F5 100%)',
-              animationDuration: '2s',
-              transition: 'background 0.4s ease',
-            }}
-          >
-            <div className="h-full w-full overflow-hidden rounded-full">
-              <div
-                className="h-full w-full"
-                style={{
-                  backgroundImage: 'url(https://i.pravatar.cc/80?img=33)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
+          {isComplete ? (
+            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-full bg-green-500 shadow-[0_0_24px_rgba(34,197,94,0.3)]">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" aria-label="Pencarian berhasil">
+                <path d="M5 12.5l4.5 4.5L19.5 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-          </div>
+          ) : (
+            <div
+              className="h-[76px] w-[76px] animate-spin rounded-full border-[3px] border-white/15 border-r-emerald-400 border-t-violet-400"
+              style={{ animationDuration: '1.2s' }}
+              aria-label="Sedang mencari foto"
+            />
+          )}
           {/* Green ring pulse on complete */}
           {isComplete && (
             <div className="absolute inset-0 rounded-full animate-ping" style={{ border: '3px solid #22C55E', opacity: 0.4 }} />
@@ -120,7 +123,7 @@ export default function ProcessingPage() {
                 display: 'inline-block',
               }}
             >
-              Foto ditemukan! 🎉
+              Foto ditemukan!
             </span>
           ) : (
             'Sedang mencari fotomu...'
@@ -129,13 +132,13 @@ export default function ProcessingPage() {
         <p className="mb-6 text-center text-sm text-white/60">
           {isComplete
             ? 'Kami berhasil menemukan fotomu'
-            : 'AI kami sedang mencocokkan dari 2.847 foto di event ini'}
+            : 'Sedang mencocokkan wajahmu dengan 2.847 foto dari event ini'}
         </p>
 
         {/* Progress bar */}
         <div className="mb-1 w-full">
           <div className="mb-1.5 flex justify-between text-xs">
-            <span className="text-white/50">{isComplete ? 'Selesai!' : 'Mencocokkan wajah...'}</span>
+            <span className="text-white/50">{isComplete ? 'Selesai!' : 'Mencocokkan wajahmu...'}</span>
             <span
               className="font-bold"
               style={{ color: isComplete ? '#22C55E' : 'white', transition: 'color 0.4s ease' }}
@@ -146,6 +149,7 @@ export default function ProcessingPage() {
           <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full rounded-full"
+
               style={{
                 width: `${progress}%`,
                 background: isComplete
@@ -185,7 +189,7 @@ export default function ProcessingPage() {
                     transition: 'color 0.3s ease',
                   }}
                 >
-                  {label}
+                  {isComplete ? label : `${label}...`}
                 </span>
               </div>
             );
@@ -201,7 +205,7 @@ export default function ProcessingPage() {
             transition: 'opacity 0.5s ease',
           }}
         >
-          <Link href="/sports/results" className="text-xs text-white/50 underline">
+          <Link href={resultsHref} className="text-xs text-white/50 underline">
             Langsung lihat semua foto
           </Link>
         </div>
@@ -214,5 +218,13 @@ export default function ProcessingPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function ProcessingPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-svh items-center justify-center bg-gray-900"><div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent" /></div>}>
+      <ProcessingContent />
+    </Suspense>
   );
 }

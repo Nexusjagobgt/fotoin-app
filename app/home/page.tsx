@@ -1,224 +1,245 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
-import { homeCategories } from '@/lib/mockData';
+import { 
+  Search, Bell, MapPin, ChevronDown, Star, Zap, ShieldCheck, 
+  Heart, SlidersHorizontal, ArrowRight, Grid 
+} from 'lucide-react';
 
 const featuredPhotographers = [
-  { name: 'Rizki Pratama', specialty: 'Wedding', rating: '4.9', sessions: '127', price: 'Rp 400.000/jam', available: 'Hari Ini', availableColor: '#DCFCE7', availableText: '#16A34A', km: '1.2 km', response: '<1 jam', avatar: 'https://i.pravatar.cc/80?img=11' },
-  { name: 'Dinda Aulia', specialty: 'Graduation', rating: '4.8', sessions: '89', price: 'Rp 300.000/jam', available: 'Besok', availableColor: '#FEF9C3', availableText: '#92400E', km: '2.5 km', response: '<2 jam', avatar: 'https://i.pravatar.cc/80?img=5' },
-  { name: 'Bagas F.', specialty: 'Event', rating: '4.7', sessions: '203', price: 'Rp 350.000/jam', available: 'Hari Ini', availableColor: '#DCFCE7', availableText: '#16A34A', km: '3.1 km', response: '<1 jam', avatar: 'https://i.pravatar.cc/80?img=8' },
+  { id: 'rizki-pratama', name: 'Rizki Pratama', specialty: 'Wedding', rating: '4.9', sessions: '127', price: 'Rp400.000', available: 'Tersedia hari ini', availableStatus: 'green', km: '1.2 km', avatar: 'https://i.pravatar.cc/150?img=11', cover: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop' },
+  { id: 'dinda-aulia', name: 'Dinda Aulia', specialty: 'Graduation', rating: '4.8', sessions: '89', price: 'Rp300.000', available: 'Tersedia besok', availableStatus: 'yellow', km: '2.5 km', avatar: 'https://i.pravatar.cc/150?img=5', cover: 'https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=600&auto=format&fit=crop' },
+  { id: 'bagas-firmansyah', name: 'Bagas Firmansyah', specialty: 'Event', rating: '4.7', sessions: '203', price: 'Rp350.000', available: 'Tersedia hari ini', availableStatus: 'green', km: '3.1 km', avatar: 'https://i.pravatar.cc/150?img=8', cover: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=600&auto=format&fit=crop' },
+];
+
+const categories = [
+  { name: 'Wedding', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop', slug: 'wedding' },
+  { name: 'Graduation', img: 'https://picsum.photos/seed/graduation/600/400', slug: 'graduation' },
+  { name: 'Product', img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=600&auto=format&fit=crop', slug: 'product' },
 ];
 
 export default function HomePage() {
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+
+  const toggleFavorite = (e: React.MouseEvent, id: string) => {
+    e.preventDefault(); // Prevent link navigation when clicking heart
+    const newFavs = new Set(favorites);
+    if (newFavs.has(id)) {
+      newFavs.delete(id);
+    } else {
+      newFavs.add(id);
+    }
+    setFavorites(newFavs);
+  };
+
   return (
-    <div className="flex h-svh flex-col bg-gray-50">
-      {/* Top bar */}
-      <div className="flex items-center justify-between border-b border-gray-100 bg-white px-4 py-3">
-        <Link href="/"><Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" /></Link>
-        <div className="flex items-center gap-2">
-          <div className="relative flex h-[34px] w-[34px] items-center justify-center rounded-full bg-gray-100">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2a7 7 0 00-7 7v4l-2 2v1h18v-1l-2-2V9a7 7 0 00-7-7z" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" />
-              <path d="M10 19a2 2 0 004 0" stroke="#374151" strokeWidth="1.8" />
-            </svg>
-            <div className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500" />
-          </div>
-          <Link href="/photographer/home" className="inline-flex items-center rounded-full border-[1.5px] border-violet-600 bg-violet-100 px-2.5 py-1">
-            <span className="text-xs font-medium text-violet-700">Customer</span>
-          </Link>
-          <div className="h-[34px] w-[34px] rounded-full border-2 border-violet-600" style={{ backgroundImage: 'url(https://i.pravatar.cc/40?img=33)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        </div>
-      </div>
-
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Greeting + search */}
-        <div className="bg-white px-4 pb-3.5 pt-4">
-          <div className="mb-0.5 flex items-center gap-1.5">
-            <span className="text-[9px]">📍</span>
-            <span className="text-xs font-medium text-gray-500">Surabaya, Jawa Timur</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M3 5l3 3 3-3" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <div className="text-[22px] font-bold leading-snug text-gray-900">Halo, Christian 👋</div>
-          <div className="mt-0.5 text-sm text-gray-500">Mau foto apa hari ini?</div>
-          <Link
-            href="/connect"
-            className="mt-3 flex items-center gap-2 rounded-xl bg-gray-100 px-3.5 py-2.5"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="7" stroke="#7C3AED" strokeWidth="2" />
-              <path d="M20 20l-3-3" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <span className="flex-1 text-sm text-gray-400">Cari fotografer atau layanan...</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M4 6h16M7 12h10M10 18h4" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </Link>
-        </div>
-
-        {/* Expiry warning banner */}
-        <Link
-          href="/my-photos"
-          className="mx-4 mt-3 flex items-center gap-3 rounded-2xl px-4 py-3"
-          style={{ backgroundColor: '#FEF3C7', border: '1px solid #FDE68A' }}
-        >
-          <span className="text-lg">⚠️</span>
-          <div className="flex-1 min-w-0">
-            <div className="text-xs font-semibold" style={{ color: '#92400E' }}>
-              1 foto akan expired dalam 5 hari! Segera download.
-            </div>
-          </div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M9 18l6-6-6-6" stroke="#92400E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+    <div className="flex h-svh flex-col bg-white md:max-w-md md:mx-auto md:shadow-2xl relative overflow-hidden text-gray-900">
+      
+      {/* HEADER */}
+      <header className="flex items-center justify-between px-4 py-3 sticky top-0 z-20 bg-white/95 backdrop-blur-md shrink-0">
+        <Link href="/">
+          <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={110} height={28} priority className="object-contain" />
         </Link>
-
-        {/* Categories */}
-        <div className="mt-2 bg-white px-4 py-4">
-          <div className="mb-3 text-base font-bold text-gray-900">Kategori Layanan</div>
-          <div className="grid grid-cols-2 gap-2">
-            {homeCategories.map((cat, i) => {
-              const isLast = i === homeCategories.length - 1;
-              return (
-                <Link
-                  key={cat.slug}
-                  href={`/connect/${cat.slug}`}
-                  className={`relative h-20 overflow-hidden rounded-xl${isLast ? ' col-span-2' : ''}`}
-                >
-                  <div className="absolute inset-0" style={{ backgroundImage: `url(${cat.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%)' }} />
-                  <div className="absolute bottom-2 left-2.5 text-xs font-bold text-white">{cat.name}</div>
-                </Link>
-              );
-            })}
-          </div>
+        <div className="flex items-center gap-4">
+          <button className="relative">
+            <Bell className="w-6 h-6 text-gray-700" strokeWidth={1.5} />
+            <div className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white" />
+          </button>
+          <Link href="/messages" className="relative">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>
+            <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#6236FF] border-2 border-white">
+              <span className="text-[8px] font-bold text-white leading-none">2</span>
+            </div>
+          </Link>
+          <Link
+            href="/photographer/home"
+            className="inline-flex items-center rounded-full border border-violet-600 bg-white px-2.5 py-0.5 text-xs font-medium text-violet-700 active:bg-violet-50 transition-colors"
+          >
+            Customer
+          </Link>
+          <Link href="/profil" className="h-8 w-8 rounded-full overflow-hidden shrink-0 bg-gray-100 relative ml-1">
+            <Image src="https://i.pravatar.cc/150?img=33" alt="Avatar" fill className="object-cover" />
+          </Link>
         </div>
+      </header>
 
-        {/* FOTOIN Sports banner */}
-        <div className="mt-2 bg-white px-4 py-4">
-          <Link href="/sports" className="relative block h-32 overflow-hidden rounded-2xl">
-            {/* Background photo */}
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=500&h=250&fit=crop)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            {/* Gradient overlay: dark on left for text legibility, fades right */}
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.1) 100%)' }}
-            />
 
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-3.5">
-              {/* Top: badge */}
-              <div className="self-start inline-flex items-center rounded-full bg-white/20 px-2.5 py-0.5 backdrop-blur-sm">
-                <span className="text-[10px] font-bold text-white">⚡ AI-Powered</span>
-              </div>
+      {/* MAIN SCROLLABLE CONTENT */}
+      <main className="flex-1 overflow-y-auto scrollbar-hide pb-6">
+        
+        {/* 1. GREETING & SEARCH */}
+        <section className="px-4 pt-2 pb-5">
+          <h1 className="text-2xl font-bold leading-tight">Halo, Christian 👋</h1>
+          
+          <div className="flex items-center gap-1 mt-1 text-gray-500">
+            <MapPin className="w-3.5 h-3.5" />
+            <span className="text-xs font-medium">Surabaya, Jawa Timur</span>
+            <ChevronDown className="w-3.5 h-3.5" />
+          </div>
 
-              {/* Bottom: text + button */}
-              <div className="flex items-end justify-between gap-3">
-                <div>
-                  <div className="text-sm font-bold leading-snug text-white">
-                    Cari Fotomu di<br />Event Olahraga
-                  </div>
-                  <div className="mt-0.5 text-[11px] text-white/70">
-                    Ribuan foto, ditemukan otomatis dengan AI
-                  </div>
+          <p className="text-[15px] text-gray-800 mt-5 mb-2.5 font-semibold">Mau cari fotografer untuk apa?</p>
+
+          <div className="flex items-center gap-2">
+            <Link href="/connect" className="flex-1 flex items-center gap-2 rounded-full bg-gray-100 px-4 py-3.5 active:bg-gray-200 transition-colors">
+              <Search className="w-5 h-5 text-gray-500" />
+              <span className="text-[13px] text-gray-500 flex-1 truncate">Cari fotografer, layanan, atau lokasi...</span>
+            </Link>
+            <button className="p-3.5 bg-gray-100 rounded-full active:bg-gray-200 transition-colors text-gray-700">
+              <SlidersHorizontal className="w-5 h-5" />
+            </button>
+          </div>
+        </section>
+
+        {/* 2. KATEGORI LAYANAN */}
+        <section className="px-4 py-2">
+          <h2 className="text-lg font-bold mb-4 text-gray-900">Jelajahi Kategori</h2>
+          
+          <div className="grid grid-cols-2 gap-3">
+            {categories.map((cat) => (
+              <Link key={cat.slug} href={`/connect/${cat.slug}`} className="relative aspect-video rounded-2xl overflow-hidden group active:scale-[0.98] transition-transform">
+                <Image src={cat.img} alt={cat.name} fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <span className="absolute bottom-3 left-3 text-white font-bold text-sm tracking-wide">{cat.name}</span>
+
+              </Link>
+            ))}
+
+            {/* Last Tile: Lihat Semua (Blurred Background) */}
+            <Link href="/connect" className="relative flex flex-col items-center justify-center aspect-video rounded-2xl overflow-hidden group active:scale-[0.98] transition-transform">
+              <Image 
+                src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=600&auto=format&fit=crop" 
+                alt="Lihat Semua Kategori" 
+                fill 
+                className="object-cover blur-[2px] brightness-75 group-hover:scale-105 transition-transform duration-500" 
+              />
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+              
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 text-white mb-2 group-hover:scale-110 transition-transform shadow-sm">
+                  <Grid className="w-5 h-5" />
                 </div>
-                <div className="flex-shrink-0 rounded-full bg-white px-4 py-1.5 text-[12px] font-semibold text-gray-900">
+                <span className="text-sm font-bold text-white drop-shadow-md">Lihat Semua</span>
+                <span className="text-[11px] font-medium text-white/90 mt-0.5 drop-shadow-md">6+ kategori</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
+        {/* 3. PROMOTIONAL BANNER */}
+        <section className="px-4 py-5 mt-2">
+          <Link href="/sports" className="relative block w-full rounded-2xl overflow-hidden shadow-sm h-32 group active:scale-[0.98] transition-transform">
+            <div className="absolute inset-0">
+              <Image src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=600&auto=format&fit=crop" alt="Sports" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/90 via-[#1E293B]/70 to-transparent" />
+            
+            <div className="relative p-4 h-full flex flex-col justify-between">
+              <div className="self-start inline-flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md px-2 py-0.5 border border-white/10">
+                <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                <span className="text-[10px] font-bold text-white">AI-Powered</span>
+              </div>
+              
+              <div className="flex items-end justify-between mt-auto">
+                <div>
+                  <h3 className="text-white font-bold text-sm">Cari Fotomu di Event Olahraga</h3>
+                  <p className="text-[10px] text-gray-300 mt-0.5 max-w-[180px]">Temukan foto kamu dari event terbaru.</p>
+                </div>
+                <div className="bg-white rounded-full px-3 py-1.5 text-[11px] font-bold text-gray-900 shadow-sm shrink-0">
                   Lihat Event →
                 </div>
               </div>
             </div>
           </Link>
-        </div>
+        </section>
 
-        {/* Featured photographers */}
-        <div className="mt-2 bg-white px-4 pb-3 pt-4">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-base font-bold text-gray-900">Fotografer Featured</span>
-            <Link href="/connect/results" className="text-xs font-semibold" style={{ color: '#7C3AED' }}>Lihat Semua →</Link>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-1">
+        {/* 4. FOTOGRAFER PILIHAN */}
+        <section className="px-4 pt-3 pb-3">
+          <h2 className="text-lg font-bold mb-4 text-gray-900">Fotografer Pilihan</h2>
+          
+          <div className="flex overflow-x-auto gap-4 pb-4 px-4 -mx-4 scrollbar-hide snap-x scroll-pl-4" style={{ scrollbarWidth: 'none' }}>
             {featuredPhotographers.map((p) => (
-              <Link
-                key={p.name}
-                href="/p/rizki"
-                className="min-w-[170px] rounded-[14px] border border-gray-100 bg-gray-50 px-3 py-3"
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <div className="h-10 w-10 flex-shrink-0 rounded-full" style={{ backgroundImage: `url(${p.avatar})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                  <div>
-                    <div className="text-[13px] font-bold text-gray-900">{p.name}</div>
-                    <div className="mt-0.5 inline-block rounded-md bg-violet-100 px-1.5 py-0.5">
-                      <span className="text-[11px] text-violet-600">{p.specialty}</span>
+              <Link key={p.id} href={`/photographer/${p.id}?from=home`} className="w-[260px] shrink-0 bg-white rounded-2xl overflow-hidden snap-start flex flex-col shadow-[0_2px_12px_rgba(0,0,0,0.06)] active:scale-[0.98] transition-transform relative">
+                
+                {/* Cover Image & Favorite */}
+                <div className="relative h-32 w-full bg-gray-100">
+                  <Image src={p.cover} alt="Cover" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-black/10" />
+                  
+                  {/* Favorite Toggle */}
+                  <button 
+                    onClick={(e) => toggleFavorite(e, p.id)}
+                    className="absolute top-3 right-3 p-1.5 bg-black/30 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition-colors"
+                  >
+                    <Heart className={`w-4 h-4 ${favorites.has(p.id) ? 'fill-red-500 text-red-500' : ''}`} />
+                  </button>
+                  
+                  {/* Avatar overlapping */}
+                  <div className="absolute -bottom-5 left-4">
+                    <div className="h-12 w-12 rounded-full border-2 border-white overflow-hidden bg-gray-100 shadow-sm relative">
+                      <Image src={p.avatar} alt={p.name} fill className="object-cover" />
                     </div>
                   </div>
                 </div>
-                <div className="mb-1 flex items-center gap-1">
-                  <span className="text-xs">⭐</span>
-                  <span className="text-xs font-bold text-gray-900">{p.rating}</span>
-                  <span className="text-[11px] text-gray-500">· {p.sessions} sesi</span>
-                </div>
-                <div className="text-[13px] font-bold" style={{ color: '#7C3AED' }}>{p.price}</div>
-                <div className="mt-1.5 flex items-center gap-1">
-                  <div className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: p.availableColor, color: p.availableText }}>
-                    ✅ {p.available}
+                
+                <div className="p-4 pt-6 flex flex-col">
+                  {/* Name + Verified */}
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-bold text-[15px] text-gray-900 leading-none">{p.name}</h3>
+                    <ShieldCheck className="w-4 h-4 text-blue-500" />
                   </div>
-                  <span className="text-[10px] text-gray-500">{p.km}</span>
-                </div>
-                <div className="mt-1 text-[10px] text-gray-500">⚡ Balas {p.response}</div>
-              </Link>
-            ))}
-          </div>
-        </div>
+                  
+                  {/* Rating + Review Count */}
+                  <div className="flex items-center gap-1 mt-1">
+                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                    <span className="text-[13px] font-bold text-gray-900">{p.rating}</span>
+                    <span className="text-[13px] text-gray-600 font-medium ml-1">({p.sessions} sesi)</span>
+                  </div>
 
-        {/* Nearby */}
-        <div className="mt-2 mb-2 bg-white px-4 pb-3 pt-4">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-base font-bold text-gray-900">Dekat Kamu di Surabaya</span>
-            <Link href="/connect/results" className="text-xs font-semibold" style={{ color: '#7C3AED' }}>Lihat Semua →</Link>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-1">
-            {[
-              { name: 'Nadya Kusuma', specialty: 'Product', rating: '4.9', sessions: '156', price: 'Rp 280.000/jam', km: '0.8 km', avatar: 'https://i.pravatar.cc/80?img=25' },
-              { name: 'Aldi Santoso', specialty: 'Sports', rating: '4.6', sessions: '94', price: 'Rp 320.000/jam', km: '1.5 km', avatar: 'https://i.pravatar.cc/80?img=15' },
-            ].map((p) => (
-              <Link key={p.name} href="/p/rizki" className="min-w-[170px] rounded-[14px] border border-gray-100 bg-gray-50 px-3 py-3">
-                <div className="mb-2 flex items-center gap-2">
-                  <div className="h-10 w-10 flex-shrink-0 rounded-full" style={{ backgroundImage: `url(${p.avatar})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                  <div>
-                    <div className="text-[13px] font-bold text-gray-900">{p.name}</div>
-                    <div className="mt-0.5 inline-block rounded-md bg-violet-100 px-1.5 py-0.5">
-                      <span className="text-[11px] text-violet-600">{p.specialty}</span>
+                  {/* Service Category */}
+                  <div className="mt-2 flex">
+                    <div className="inline-flex items-center bg-purple-50 px-2.5 py-1 rounded-md text-xs font-semibold text-[#6236FF]">
+                      {p.specialty}
                     </div>
                   </div>
+                  
+                  {/* Price */}
+                  <div className="mt-2">
+                    <span className="font-bold text-[17px] text-gray-900">{p.price}</span>
+                    <span className="text-[13px] text-gray-500 font-medium"> / jam</span>
+                  </div>
+                  
+                  {/* Status & Location */}
+                  <div className="mt-2 flex items-center justify-between text-[13px]">
+                    <div className="flex items-center gap-1.5 font-medium">
+                      <span className={`w-2.5 h-2.5 rounded-full ${p.availableStatus === 'green' ? 'bg-green-500' : 'bg-yellow-500'}`}></span>
+                      <span className="text-gray-800">{p.available}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-gray-500 font-medium">
+                      <MapPin className="w-3.5 h-3.5" />
+                      <span>{p.km}</span>
+                    </div>
+                  </div>
+                  
+                  {/* CTA */}
+                  <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[#6236FF] font-bold text-[13px] group">
+                    <span>Lihat Profil</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-                <div className="mb-1 flex items-center gap-1">
-                  <span className="text-xs">⭐</span>
-                  <span className="text-xs font-bold text-gray-900">{p.rating}</span>
-                  <span className="text-[11px] text-gray-500">· {p.sessions} sesi</span>
-                </div>
-                <div className="text-[13px] font-bold" style={{ color: '#7C3AED' }}>{p.price}</div>
-                <div className="mt-1.5 flex items-center gap-1">
-                  <div className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-600">✅ Hari Ini</div>
-                  <span className="text-[10px] text-gray-500">{p.km}</span>
-                </div>
-                <div className="mt-1 text-[10px] text-gray-500">⚡ Balas &lt;1 jam</div>
               </Link>
             ))}
+            <div className="w-px shrink-0" /> {/* Explicit right padding spacer for Safari */}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <BottomNav mode="client" />
+      {/* 5. BOTTOM NAVIGATION */}
+      <nav className="shrink-0 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] bg-white relative">
+        <BottomNav mode="client" />
+      </nav>
     </div>
   );
 }
-

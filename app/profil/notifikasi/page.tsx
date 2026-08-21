@@ -1,0 +1,1 @@
+import Notif from '../../shared/notifikasi/page'; export default function P() { return <Notif mode='client' />; }

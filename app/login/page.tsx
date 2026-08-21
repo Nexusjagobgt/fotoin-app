@@ -66,9 +66,10 @@ export default function LoginPage() {
           <div className="flex-1 h-px bg-gray-100" />
         </div>
 
-        <Link href="/role" className="text-center text-sm text-gray-500 hover:text-gray-700">
+        <Link href="/home" className="text-center text-sm text-gray-500 hover:text-gray-700">
           ← Kembali Jelajahi
         </Link>
+
 
         <p className="mt-auto mb-8 text-center text-xs text-gray-400 leading-relaxed">
           Dengan masuk, kamu menyetujui Syarat & Ketentuan dan Kebijakan Privasi FOTOIN

@@ -1,10 +1,8 @@
 'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SplashPage() {
-  const router = useRouter();
-
   return (
     <>
       <style>{`
@@ -83,16 +81,16 @@ export default function SplashPage() {
           </p>
 
           {/* CTA */}
-          <button
-            onClick={() => router.push('/login')}
-            className="fu3 mt-12 w-full rounded-2xl py-4 text-base font-semibold text-white transition-transform active:scale-95"
+          <Link
+            href="/login"
+            className="fu3 mt-12 flex w-full items-center justify-center rounded-2xl py-4 text-base font-semibold text-white transition-transform active:scale-95"
             style={{
               background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               boxShadow: '0 8px 28px rgba(34,197,94,0.40)',
             }}
           >
             Mulai Sekarang →
-          </button>
+          </Link>
 
           {/* Version */}
           <p className="fu4 mt-5 text-xs" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.4px' }}>

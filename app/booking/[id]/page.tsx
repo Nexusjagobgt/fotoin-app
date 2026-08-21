@@ -338,7 +338,7 @@ export default function BookingDetailPage() {
           </>
         ) : (
           <Link
-            href={`/messages/${id}`}
+            href={`/messages/${id}?from=bookings`}
             className="flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white active:scale-95 transition-transform"
             style={{ backgroundColor: '#7C3AED' }}
           >

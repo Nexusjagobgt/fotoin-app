@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation';
 type Role = 'customer' | 'photographer';
 
 export default function RolePage() {
-  const [role, setRole] = useState<Role | null>(null);
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const router = useRouter();
 
   function handleContinue() {
-    if (role === 'customer') router.push('/home');
-    else if (role === 'photographer') router.push('/photographer/onboarding-intro');
+    if (selectedRole === 'customer') router.push('/home');
+    else if (selectedRole === 'photographer') router.push('/photographer/onboarding-intro');
   }
 
   return (
@@ -50,12 +50,14 @@ export default function RolePage() {
         <div className="mt-8 flex w-full flex-col gap-4">
           {/* Customer */}
           <button
-            onClick={() => setRole('customer')}
-            className={`flex items-center gap-4 rounded-2xl border-2 px-5 py-5 text-left transition-all duration-200${role === 'customer' ? ' card-selected' : ''}`}
+            type="button"
+            onClick={() => setSelectedRole('customer')}
+            aria-pressed={selectedRole === 'customer'}
+            className={`flex cursor-pointer items-center gap-4 rounded-2xl border-2 px-5 py-5 text-left transition-all duration-200${selectedRole === 'customer' ? ' card-selected' : ''}`}
             style={{
-              borderColor: role === 'customer' ? '#6B21F5' : '#E5E7EB',
-              backgroundColor: role === 'customer' ? '#F5F3FF' : 'white',
-              boxShadow: role === 'customer' ? '0 4px 20px rgba(107,33,245,0.18)' : 'none',
+              borderColor: selectedRole === 'customer' ? '#6B21F5' : '#E5E7EB',
+              backgroundColor: selectedRole === 'customer' ? '#F5F3FF' : 'white',
+              boxShadow: selectedRole === 'customer' ? '0 4px 20px rgba(107,33,245,0.18)' : 'none',
             }}
           >
             <div
@@ -76,10 +78,10 @@ export default function RolePage() {
             <div
               className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full transition-all duration-200"
               style={{
-                background: role === 'customer' ? '#6B21F5' : '#F3F4F6',
+                background: selectedRole === 'customer' ? '#6B21F5' : '#F3F4F6',
               }}
             >
-              {role === 'customer' && (
+              {selectedRole === 'customer' && (
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -89,12 +91,14 @@ export default function RolePage() {
 
           {/* Fotografer */}
           <button
-            onClick={() => setRole('photographer')}
-            className={`flex items-center gap-4 rounded-2xl border-2 px-5 py-5 text-left transition-all duration-200${role === 'photographer' ? ' card-selected' : ''}`}
+            type="button"
+            onClick={() => setSelectedRole('photographer')}
+            aria-pressed={selectedRole === 'photographer'}
+            className={`flex cursor-pointer items-center gap-4 rounded-2xl border-2 px-5 py-5 text-left transition-all duration-200${selectedRole === 'photographer' ? ' card-selected' : ''}`}
             style={{
-              borderColor: role === 'photographer' ? '#16a34a' : '#E5E7EB',
-              backgroundColor: role === 'photographer' ? '#F0FDF4' : 'white',
-              boxShadow: role === 'photographer' ? '0 4px 20px rgba(34,197,94,0.18)' : 'none',
+              borderColor: selectedRole === 'photographer' ? '#16a34a' : '#E5E7EB',
+              backgroundColor: selectedRole === 'photographer' ? '#F0FDF4' : 'white',
+              boxShadow: selectedRole === 'photographer' ? '0 4px 20px rgba(34,197,94,0.18)' : 'none',
             }}
           >
             <div
@@ -118,10 +122,10 @@ export default function RolePage() {
             <div
               className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full transition-all duration-200"
               style={{
-                background: role === 'photographer' ? '#16a34a' : '#F3F4F6',
+                background: selectedRole === 'photographer' ? '#16a34a' : '#F3F4F6',
               }}
             >
-              {role === 'photographer' && (
+              {selectedRole === 'photographer' && (
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -133,20 +137,21 @@ export default function RolePage() {
         {/* Footer */}
         <div className="mt-auto mb-6 w-full flex flex-col gap-3 pt-6">
           <button
+            type="button"
             onClick={handleContinue}
-            disabled={!role}
+            disabled={selectedRole === null}
             className="w-full rounded-xl py-4 text-base font-semibold text-white transition-all duration-200"
             style={{
-              background: role
+              background: selectedRole
                 ? 'linear-gradient(135deg, #6B21F5 0%, #4C1D95 100%)'
                 : '#D1D5DB',
-              boxShadow: role ? '0 4px 20px rgba(107,33,245,0.30)' : 'none',
-              cursor: role ? 'pointer' : 'not-allowed',
+              boxShadow: selectedRole ? '0 4px 20px rgba(107,33,245,0.30)' : 'none',
+              cursor: selectedRole ? 'pointer' : 'not-allowed',
             }}
           >
-            {role === 'customer'
+            {selectedRole === 'customer'
               ? 'Lanjutkan sebagai Customer →'
-              : role === 'photographer'
+              : selectedRole === 'photographer'
               ? 'Lanjutkan sebagai Fotografer →'
               : 'Pilih peran terlebih dahulu'}
           </button>

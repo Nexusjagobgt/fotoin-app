@@ -54,36 +54,54 @@ const events = [
 ];
 
 function EventCard({ ev }: { ev: (typeof events)[number] }) {
+  const faceScanParams = new URLSearchParams({
+    source: 'sports',
+    eventId: ev.id,
+    eventName: ev.name,
+    returnTo: '/sports',
+  });
+
   return (
-    <Link href={`/sports/${ev.id}/check`} className="overflow-hidden rounded-2xl bg-gray-900 shadow-sm">
-      <div className="relative aspect-[4/3] w-full">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${ev.img})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0) 55%)' }}
-        />
-        {ev.active && (
-          <div className="absolute left-2 top-2 inline-flex items-center rounded-full bg-green-500 px-2 py-0.5 text-[9px] font-bold text-white">
-            AKTIF
-          </div>
-        )}
-        <div className="absolute bottom-2 left-2 right-2">
-          <div className="mb-0.5 line-clamp-2 text-[11px] font-bold leading-tight text-white">{ev.name}</div>
-          <div className="text-[9px] text-white/70">📅 {ev.date} · 📍 {ev.location}</div>
-          <div className="text-[9px] text-white/70">{ev.photos} foto · {ev.photographers} fotografer</div>
-          <div className="mt-0.5 text-[9px] font-semibold text-violet-300">{ev.price}</div>
+    <Link href={`/verify-face?${faceScanParams.toString()}`} className="group relative flex flex-col overflow-hidden rounded-[18px] shadow-[0_4px_10px_rgba(0,0,0,0.05)] active:scale-[0.98] transition-transform aspect-[11/14] w-full">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${ev.img})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.95) 100%)' }}
+      />
+      
+      <div className="relative z-10 flex flex-col h-full px-3 pb-3 pt-2.5">
+        {/* Top Area: Badge */}
+        <div>
+          {ev.active && (
+            <div className="inline-flex items-center rounded-full bg-green-500/90 backdrop-blur-sm px-2 py-0.5 text-[10px] font-bold tracking-wide text-white">
+              AKTIF
+            </div>
+          )}
         </div>
-      </div>
-      <div className="px-2.5 pb-2.5 pt-2">
+        
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Text Content */}
+        <div className="mb-4">
+          <div className="mb-1.5 line-clamp-2 text-[14px] font-bold leading-tight text-white">{ev.name}</div>
+          <div className="mb-2 flex flex-col gap-1">
+            <span className="text-[10px] font-medium text-white/90">📅 {ev.date} · 📍 {ev.location}</span>
+            <span className="text-[10px] font-medium text-white/90">📸 {ev.photos} foto · {ev.photographers} fotog.</span>
+          </div>
+          <div className="text-[12px] font-bold text-violet-300">{ev.price}</div>
+        </div>
+        
+        {/* CTA Button */}
         <div
-          className="w-full rounded-xl py-1.5 text-center text-xs font-semibold text-white"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-[12px] font-bold text-white transition-colors group-active:bg-violet-700"
           style={{ backgroundColor: '#6B21F5' }}
         >
           Cari Fotoku
@@ -92,6 +110,8 @@ function EventCard({ ev }: { ev: (typeof events)[number] }) {
     </Link>
   );
 }
+
+
 
 /* ── ONBOARDING MODAL ─────────────────────────────────────────────── */
 
@@ -328,74 +348,88 @@ export default function SportsPage() {
   return (
     <>
       <div className="flex h-svh flex-col bg-gray-900">
-        {/* Hero */}
-        <div className="relative h-60 flex-shrink-0 overflow-hidden">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&h=250&fit=crop)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(17,24,39,0.95) 100%)' }}
-          />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-            <div className="mb-3 flex items-center gap-2">
-              <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={90} height={22} priority className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              <span className="text-sm font-bold text-amber-400">⚡ Sports</span>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gray-900">
+          
+          {/* Sticky Background Hero Layer */}
+          <div className="sticky top-0 w-full z-0 flex flex-col">
+            {/* Hero */}
+            <div className="relative flex-shrink-0 overflow-hidden flex flex-col min-h-[340px]">
+              <div
+
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: 'url(https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&h=400&fit=crop)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(to bottom, rgba(17,24,39,0.7) 0%, rgba(17,24,39,0.85) 50%, rgba(17,24,39,1) 100%)' }}
+              />
+              
+              <div className="relative z-10 flex flex-col h-full w-full">
+                {/* Top Bar: Logo (Left) + Cara Kerja (Right) */}
+                <div className="flex items-center justify-between px-5 pt-6 pb-4">
+                  <div className="flex items-center gap-2">
+                    <Image src="/images/FOTOIN LOGO.png" alt="FOTOIN" width={90} height={22} priority className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+                    <span className="text-[13px] font-bold text-amber-400">⚡ Sports</span>
+                  </div>
+                  <button
+                    onClick={openModal}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 backdrop-blur-md active:scale-95 transition-transform border border-white/20"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="2.5" />
+                      <path d="M12 8v.5M12 11.5v5" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
+                    <span className="text-[11px] font-bold text-white tracking-wide">Cara Kerja</span>
+                  </button>
+                </div>
+
+                {/* Main Center Content */}
+                <div className="flex flex-1 flex-col items-center justify-center px-6 text-center pt-2 pb-6">
+                  <h1 className="text-[24px] font-bold leading-tight text-white mb-2.5">
+                    Temukan Fotomu dari<br />Event Olahraga
+                  </h1>
+                  <p className="text-[13px] text-white/70 leading-relaxed max-w-[280px] mb-4">
+                    Cocokkan wajahmu dari ribuan foto event secara otomatis — cepat &amp; akurat
+                  </p>
+                  <button
+                    onClick={() => document.getElementById('event-tersedia')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="rounded-full bg-white px-7 py-3 text-[14px] font-bold text-gray-900 active:scale-[0.98] transition-transform shadow-[0_4px_15px_rgba(255,255,255,0.15)]"
+                  >
+                    Mulai Cari Fotoku
+                  </button>
+                </div>
+              </div>
             </div>
-            <h1 className="mb-3 text-[20px] font-bold leading-tight text-white">
-              Temukan Fotomu dari<br />Event Olahraga
-            </h1>
-            <p className="mb-4 text-xs text-white/70">
-              Cocokkan wajahmu dari ribuan foto event secara otomatis — cepat &amp; akurat
-            </p>
-            <Link
-              href="/sports/marathon-2026/check"
-              className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-gray-900"
-            >
-              Mulai Cari Fotoku
-            </Link>
+
+            {/* How it works */}
+            {/* Added pb-12 so the rounded corners of the sliding sheet overlap nicely over the dark background */}
+            <div className="flex flex-shrink-0 justify-around px-5 pt-6 pb-12" style={{ backgroundColor: 'rgb(17,24,39)' }}>
+              {[
+                { icon: '🏃', text: 'Ikuti event\nolahraga' },
+                { icon: '🤖', text: 'AI cocokkan\nfotomu' },
+                { icon: '🛒', text: 'Preview &\nbeli foto' },
+              ].map(({ icon, text }) => (
+                <div key={text} className="flex flex-col items-center gap-1.5 text-center flex-1">
+                  <span className="text-[28px] mb-1">{icon}</span>
+                  <span className="whitespace-pre-line text-[11px] font-medium leading-relaxed text-white/70">{text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* "Cara Kerja" button */}
-          <button
-            onClick={openModal}
-            className="absolute right-4 top-4 z-20 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 backdrop-blur-sm active:scale-95 transition-transform"
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="2" />
-              <path d="M12 8v.5M12 11.5v5" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <span className="text-[11px] font-semibold text-white">Cara Kerja</span>
-          </button>
-        </div>
-
-        {/* How it works */}
-        <div className="flex flex-shrink-0 justify-around px-4 py-5" style={{ backgroundColor: 'rgb(26,31,46)' }}>
-          {[
-            { icon: '🏃', text: 'Ikuti event\nolahraga' },
-            { icon: '🤖', text: 'AI cocokkan\nfotomu' },
-            { icon: '🛒', text: 'Preview &\nbeli foto' },
-          ].map(({ icon, text }) => (
-            <div key={text} className="flex flex-col items-center gap-1 text-center">
-              <span className="text-2xl">{icon}</span>
-              <span className="whitespace-pre-line text-[10px] leading-tight text-white/60">{text}</span>
+          {/* Foreground Sliding Events Section */}
+          <div id="event-tersedia" className="relative z-10 w-full bg-white min-h-[500px] mt-[-24px] rounded-t-[24px] shadow-[0_-10px_25px_rgba(0,0,0,0.15)] pb-8">
+            <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-5 py-4 rounded-t-[24px] flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+              <span className="text-[17px] font-bold text-gray-900">Event Tersedia</span>
+              <button className="text-[13px] font-bold active:opacity-60 transition-opacity" style={{ color: '#6B21F5' }}>
+                Lihat Semua →
+              </button>
             </div>
-          ))}
-        </div>
-
-        {/* Events */}
-        <div className="flex-1 overflow-y-auto bg-white">
-          <div className="px-4 pb-4">
-            <div className="flex items-center justify-between py-4">
-              <span className="text-base font-bold text-gray-900">Event Tersedia</span>
-              <span className="text-xs font-semibold" style={{ color: '#6B21F5' }}>Lihat Semua →</span>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="px-5 pt-4 grid grid-cols-2 gap-3.5">
               {events.map((ev) => (
                 <EventCard key={ev.id} ev={ev} />
               ))}

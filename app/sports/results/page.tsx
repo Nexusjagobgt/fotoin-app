@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const photos = [
   { id: 1, url: 'https://images.unsplash.com/photo-1565120130276-05b94d46be21?w=300&h=300&fit=crop', price: 'Rp 25.000' },
@@ -12,11 +12,21 @@ const photos = [
   { id: 6, url: 'https://images.unsplash.com/photo-1530143584546-02191bc84eb5?w=300&h=300&fit=crop', price: 'Rp 25.000' },
 ];
 
-export default function PhotoResultsPage() {
+function PhotoResultsContent() {
   const [selected, setSelected] = useState<Set<number>>(new Set([1, 2, 4]));
   const [showQris, setShowQris] = useState(false);
   const [purchased, setPurchased] = useState(false);
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get('eventId');
+  const eventName = searchParams.get('eventName') ?? 'Surabaya Marathon 2026';
+  const backHref = eventId
+    ? `/sports/${eventId}/check?${new URLSearchParams({
+        ...(searchParams.get('eventName') ? { eventName: searchParams.get('eventName')! } : {}),
+        ...(searchParams.get('category') ? { category: searchParams.get('category')! } : {}),
+        ...(searchParams.get('bib') ? { bib: searchParams.get('bib')! } : {}),
+        ...(searchParams.get('faceScanned') === '1' ? { faceScanned: '1' } : {}),
+      }).toString()}`
+    : '/sports';
 
   const toggle = (id: number) => {
     setSelected((prev) => {
@@ -33,14 +43,14 @@ export default function PhotoResultsPage() {
     <div className="flex min-h-svh flex-col bg-white">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-        <Link href="/sports" className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+        <Link href={backHref} className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M19 12H5M12 19l-7-7 7-7" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>
         <div>
           <div className="text-sm font-bold text-gray-900">23 foto ditemukan 🎉</div>
-          <div className="text-xs text-gray-400">Surabaya Marathon 2026</div>
+          <div className="text-xs text-gray-400">{eventName}</div>
         </div>
         <div className="ml-auto flex gap-2">
           <button className="flex h-8 w-8 items-center justify-center rounded-full border border-violet-300 bg-violet-50">
@@ -207,5 +217,13 @@ export default function PhotoResultsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function PhotoResultsPage() {
+  return (
+    <Suspense fallback={<div className="flex h-svh items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" /></div>}>
+      <PhotoResultsContent />
+    </Suspense>
   );
 }
